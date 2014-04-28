@@ -29,6 +29,7 @@ Barcoded intends to provide a simple API for the generation barcodes in multiple
 + [Bookland](http://en.wikipedia.org/wiki/Bookland)
 + [Code 128](http://en.wikipedia.org/wiki/Code_128)
 + [Code 25 Interleaved 2 of 5](http://en.wikipedia.org/wiki/Interleaved_2_of_5)
++ [Code 25 Non-interleaved 2 of 5](http://en.wikipedia.org/wiki/Interleaved_2_of_5)
 + [Code 39](http://en.wikipedia.org/wiki/Code_39)
 + [Code 93](http://en.wikipedia.org/wiki/Code_93)
 + [EAN-13](http://en.wikipedia.org/wiki/EAN-13)

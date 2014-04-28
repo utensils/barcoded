@@ -6,5 +6,5 @@ ENV['RACK_ENV'] ||= 'development'
 
 Bundler.require(:default, ENV['RACK_ENV'])
 
-path = File.join(Dir.pwd, 'lib', '**', '*.rb')
+path = File.join(Dir.pwd, '{config/initializers,lib}', '**', '*.rb')
 Dir[path].each { |file| require file }

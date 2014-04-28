@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'barby'
-gem 'rmagick', '2.13.2'
+gem 'rmagick', '2.13.2', require: false
 gem 'rqrcode'
 gem 'sinatra'
 
@@ -14,5 +14,5 @@ group :test do
   gem 'rack-test'
   gem 'rr'
   gem 'rspec'
-  gem 'simplecov', '~> 0.7', require: false 
+  gem 'simplecov', '~> 0.7', require: false
 end
