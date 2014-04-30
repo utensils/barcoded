@@ -1,16 +1,26 @@
 module Sinatra
   module RequestHelpers
 
-    FORMATS = %w(svg png gif jpeg)
+    FORMATS = %w(svg png gif jpg)
 
-    # Internal: Get the expected barcode symbology
+    # Internal: The requested barcode symbology
     #
     # Returns a String
     def symbology 
       params[:type].downcase
     end
 
-    # Internal: Helper to retrieve the expected barcode response format 
+    # Internal: The value to encode
+    #
+    # Returns a String
+    def value
+      path   = request.path
+      start  = path.rindex('/') + 1
+      finish = path.index('.')
+      path[start...finish]
+    end
+
+    # Internal: Helper to retrieve the barcode response format 
     #
     # Returns a String
     def format

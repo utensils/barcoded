@@ -3,13 +3,13 @@ require 'spec_helper'
 describe BarcodeFactory do
   subject { BarcodeFactory }
 
-  describe '.vend' do
+  describe '.build' do
     shared_examples 'a supported symbology' do
       let(:symbology) { '' }
       let(:data)      { 'ABC123' }
 
       it 'will return a Barby::Barcode' do
-        barcode = subject.vend(symbology, data)
+        barcode = subject.build(symbology, data)
         expect(barcode).to be_a Barby::Barcode
       end
     end
