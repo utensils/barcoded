@@ -1,6 +1,6 @@
 # Barcoded
 
-Barcoded intends to provide a simple API for the generation barcodes in multiple symbologies.
+Barcoded intends to provide a simple API for the generation of barcodes in multiple symbologies.
 
 [![Build Status](https://travis-ci.org/doomspork/barcoded.png?branch=master)](https://travis-ci.org/doomspork/barcoded) [![Code Climate](https://codeclimate.com/github/doomspork/barcoded.png)](https://codeclimate.com/github/doomspork/barcoded) [![Coverage Status](https://coveralls.io/repos/doomspork/barcoded/badge.png?branch=master)](https://coveralls.io/r/doomspork/barcoded)
 
@@ -8,7 +8,7 @@ Barcoded intends to provide a simple API for the generation barcodes in multiple
 
 1. Install the required software dependencies if you have not already:
 
-    + Ruby 2.0+
+    + Ruby 2.0
     
     + ImageMagick 6.8+
 
@@ -45,12 +45,12 @@ Barcoded intends to provide a simple API for the generation barcodes in multiple
 
 + PNG
 + GIF
-+ JPEG
-+ SVG
++ JPG
++ SVG — _coming soon..._
 
 ## Why?
 
-Businesses need barcodes and adding support to legacy systems for new symbologies can be non-trival, enter Barcoded.  Leveraging our simple API businesses can generate barcodes in multiple symbologies on-demand without ever making a code change.
+Businesses need barcodes and adding support to legacy systems for new symbologies can be non-trival, enter Barcoded.  Leveraging our simple API, businesses can generate barcodes in multiple symbologies on-demand without ever making a code change.
 
 ## Testing
 
