@@ -6,8 +6,10 @@ rvm:
 bundler_args: --without development
 script: bundle exec rspec
 matrix:
+  fast_finish: true
   allow_failures:
     - rvm: ruby-head
+    - rvm: 2.1.0 
 notifications:
   recipients:
     - iamdoomspork@gmail.com

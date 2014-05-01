@@ -1,29 +1,26 @@
 module Sinatra
   module RequestHelpers
 
-    FORMATS     = %w(svg png gif jpeg)
-    SYMBOLOGIES = %w(bookland
-                     code-128
-                     code-25
-                     code-39
-                     code-93
-                     ean-8
-                     ean-13
-                     gs1-128
-                     iata
-                     qr
-                     supp-2
-                     supp-5
-                     upc-a)
+    FORMATS = %w(svg png gif jpg)
 
-    # Internal: Get the expected barcode symbology
+    # Internal: The requested barcode symbology
     #
     # Returns a String
     def symbology 
       params[:type].downcase
     end
 
-    # Internal: Helper to retrieve the expected barcode response format 
+    # Internal: The value to encode
+    #
+    # Returns a String
+    def value
+      path   = request.path
+      start  = path.rindex('/') + 1
+      finish = path.index('.')
+      path[start...finish]
+    end
+
+    # Internal: Helper to retrieve the barcode response format 
     #
     # Returns a String
     def format
@@ -35,7 +32,7 @@ module Sinatra
     # Returns nothing
     # Halts with a 415
     def supported!
-      unless FORMATS.include?(format) && SYMBOLOGIES.include?(symbology)
+      unless FORMATS.include?(format) && BarcodeFactory.supported?(symbology)
         unsupported_type
       end
     end
