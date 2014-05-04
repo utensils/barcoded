@@ -3,7 +3,7 @@ class BarcodeImageFactory
   def self.build(barcode, format)
     out       = format_outputter(format)
     outputter = out.new(barcode)
-    outputter.send("to_#{format.downcase}")
+    outputter.send("to_#{format}")
   end
 
   private
@@ -13,7 +13,7 @@ class BarcodeImageFactory
     when 'png', 'gif', 'jpg'
       Barby::RmagickOutputter
     when 'svg'
-      raise NotImplementedError
-    end 
+      Barby::SvgOutputter
+    end
   end
 end

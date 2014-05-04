@@ -1,17 +1,17 @@
 class BarcodeFactory
-  def self.build(symbology, data)
-    code = constant(to_key(symbology))
+  def self.build(encoding, data)
+    code = constant(to_key(encoding))
     code.new(data)
   end
 
-  def self.supported?(symbology)
-    key = to_key(symbology)
-    SYMBOLOGIES.key?(key)
+  def self.supported?(encoding)
+    key = to_key(encoding)
+    ENCODINGS.key?(key)
   end
 
   private
 
-  SYMBOLOGIES = {
+  ENCODINGS = {
     'bookland'          => 'Barby::Bookland',
     'code128a'          => 'Barby::Code128A',
     'code128b'          => 'Barby::Code128B',
@@ -31,7 +31,7 @@ class BarcodeFactory
   }
 
   def self.constant(string)
-    name = SYMBOLOGIES[string]
+    name = ENCODINGS[string]
     Object.const_get(name)
   end
 

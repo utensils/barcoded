@@ -3,38 +3,45 @@ module Sinatra
 
     FORMATS = %w(svg png gif jpg)
 
-    # Internal: The requested barcode symbology
+    # Internal: The requested barcode encoding
     #
     # Returns a String
-    def symbology 
-      params[:type].downcase
+    def encoding
+      params['encoding'].downcase
     end
 
     # Internal: The value to encode
     #
     # Returns a String
-    def value
-      path   = request.path
-      start  = path.rindex('/') + 1
-      finish = path.index('.')
-      path[start...finish]
+    def data 
+      params['data']
     end
 
-    # Internal: Helper to retrieve the barcode response format 
+    # Internal: Helper to retrieve the barcode response format
     #
     # Returns a String
     def format
-      File.extname(request.path).downcase[1..-1]
+      params['format'].downcase
     end
 
-    # Internal: Requires that the symbology and format be supported
+    # Internal: Requires that the encoding and format be supported
     #
     # Returns nothing
     # Halts with a 415
     def supported!
-      unless FORMATS.include?(format) && BarcodeFactory.supported?(symbology)
+      unless FORMATS.include?(format) && BarcodeFactory.supported?(encoding)
         unsupported_type
       end
+    end
+
+    # Internal: Ensures all required fields are present
+    #
+    # Returns nothing
+    # Halts with a 400
+    REQUIRED_PARAMS = %w(format encoding data)
+
+    def valid_request!
+      bad_request if REQUIRED_PARAMS.any? { |f| f.nil? }
     end
   end
 

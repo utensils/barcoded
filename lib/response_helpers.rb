@@ -4,7 +4,8 @@ module Sinatra
     #
     # Returns nothing
     # Halts with a 400
-    def bad_request
+    def bad_request(error = nil)
+      params['error'] = error if error
       halt 400, params.to_json
     end
 
@@ -16,12 +17,37 @@ module Sinatra
       halt 415
     end
 
+    # Internal: Handle response for new events
+    #
+    # barcode - the Barcode that was created
+    #
+    # Returns Event as JSON
+    def created(barcode)
+      headers location 
+      status 201
+      params.merge(location).to_json
+    end
+
     def send_image(img, format)
       content_type MIME_TYPES[format]
       img
     end
 
     private
+    
+    # Internal: A helper for a location Hash
+    #
+    # Returns a Hash with `location` key
+    def location
+      { location: resource_link }
+    end
+    
+    # Internal: Build a resource link based on the requested data 
+    #
+    # Returns a String
+    def resource_link
+      "/img/#{encoding}/#{data}.#{format}"
+    end
 
     MIME_TYPES = {
       'png' => 'image/png',

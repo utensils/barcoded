@@ -4,19 +4,37 @@ class Barcoded < Sinatra::Base
 
   enable :logging
 
-  before do
+  INVALID_DATA = 'The data is invalid for the selected encoding.'
+
+  before '/barcodes' do
+    valid_request!
     supported!
   end
 
-  get '/v1/*' do
-    begin
-      barcode = BarcodeFactory.build(symbology, value)
-      image   = BarcodeImageFactory.build(barcode, format)
-      send_image barcode, format
-    rescue ArgumentError => e
-      logger.error(e)
-      halt 400
-    end
+  error ArgumentError do
+    bad_request(INVALID_DATA)
+  end
+
+  error do
+    bad_request
+  end
+
+  post '/barcodes' do
+    content_type 'application/json'
+    barcode = create_barcode(encoding, data)
+    created(barcode)
+  end
+
+  get '/img/*/*.*' do |encoding, data, format|
+    barcode = create_barcode(encoding, data)
+    image   = BarcodeImageFactory.build(barcode, format)
+    send_image image, format
+  end
+
+  private
+
+  def create_barcode(encoding, value)
+    BarcodeFactory.build(encoding, value)
   end
 
 end
