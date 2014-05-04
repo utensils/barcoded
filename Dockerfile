@@ -19,11 +19,22 @@ RUN apt-get install -y build-essential bison openssl libreadline6 libreadline-de
 RUN cd /var/tmp && wget http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.1.tar.gz && tar xfvz ruby-2.1.1.tar.gz && cd ruby-2.1.1 && autoconf && ./configure --prefix=/usr/local/  && make && make install && cd .. &&  rm -rf ruby-2*
 RUN apt-get remove -y ruby
 
+# Setup webstack
+RUN apt-get install -y nginx
+RUN gem install unicorn
+
 # Setup barcoded user to run the application
 RUN groupadd barcoded
 RUN useradd -g barcoded -G users -d /home/barcoded -m -s /bin/bash barcoded
 RUN mkdir /app
 RUN chown barcoded:barcoded /app
+
+# Add custom scripts and config files to manage and start application
+ADD ./docker-scripts/start-barcoded.sh /home/barcoded/
+RUN chmod +x /home/barcoded/start-barcoded.sh
+ADD ./docker-scripts/edit-unicorn-config.rb /home/barcoded/
+RUN chmod +x /home/barcoded/edit-unicorn-config.rb
+ADD ./docker-scripts/unicorn.rb /home/barcoded/
 
 # Allow barcoded user to install gems
 RUN chown -R root:barcoded /usr/local/lib/ruby
@@ -31,7 +42,7 @@ RUN chmod -R 775 /usr/local/lib/ruby
 RUN chown -R root:barcoded /usr/local/bin 
 RUN chmod -R 775 /usr/local/bin
 
-# Add project files including git repo for development purposes
+# Add project files 
 USER barcoded
 ADD ./Gemfile /app/
 ADD ./Gemfile.lock /app/
@@ -42,12 +53,21 @@ ADD ./config /app/config
 ADD ./lib /app/lib
 ADD ./spec /app/spec
 
+# Setup needed directories for unicorn
+RUN mkdir /app/tmp
+RUN mkdir /app/tmp/sockets
+RUN mkdir /app/tmp/pids
+RUN mkdir /app/log
+
 # Install needed gems
 RUN gem install bundler
 RUN cd /app/ && bundle install
 
 # Set ENV Variables
 ENV RACK_ENV production
+ENV UNICORN_WORKERS 1
+ENV UNICORN_TIMEOUT 30
+ENV UNICORN_BACKLOG 64
 
-EXPOSE 9292
-CMD cd /app/ && bundle exec rackup -o 0.0.0.0
+EXPOSE 8080
+CMD ["/home/barcoded/start-barcoded.sh"]
