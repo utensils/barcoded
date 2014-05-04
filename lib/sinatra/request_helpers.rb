@@ -1,8 +1,5 @@
 module Sinatra
   module RequestHelpers
-
-    FORMATS = %w(svg png gif jpg)
-
     # Internal: The requested barcode encoding
     #
     # Returns a String
@@ -13,7 +10,7 @@ module Sinatra
     # Internal: The value to encode
     #
     # Returns a String
-    def data 
+    def data
       params['data']
     end
 
@@ -24,10 +21,20 @@ module Sinatra
       params['format'].downcase
     end
 
+    def normalize_params!
+      case request.env['CONTENT_TYPE']
+      when 'application/json'
+        json_body = JSON.parse(request.env['rack.input'].read)
+        params.merge!(json_body)
+      end
+    end
+
     # Internal: Requires that the encoding and format be supported
     #
     # Returns nothing
     # Halts with a 415
+    FORMATS = %w(svg png gif jpg)
+
     def supported!
       unless FORMATS.include?(format) && BarcodeFactory.supported?(encoding)
         unsupported_type

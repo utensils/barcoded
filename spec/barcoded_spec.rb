@@ -2,46 +2,66 @@ require 'spec_helper'
 
 describe Barcoded do
   describe 'POST /barcodes' do
-    let(:encoding) { 'code-128a' }
-    let(:format)   { 'png' }
-    let(:data)     { '123ABC' }
+    shared_examples 'a supported content type' do
+      let(:encoding) { 'code-128a' }
+      let(:format)   { 'png' }
+      let(:data)     { '123ABC' }
 
-    let(:barcode_request) do
-      { encoding: encoding, format: format, data: data }
-    end
 
-    context 'with unsupported format' do
-      let(:format) { 'jar' }
 
-      it 'will return 415 Unsupported Media Type' do
-        post '/barcodes', barcode_request
-        expect(last_response.status).to eq 415
+      let(:headers) { { 'CONTENT_TYPE' => content_type } }
+
+      context 'with unsupported format' do
+        let(:format) { 'jar' }
+
+        it 'will return 415 Unsupported Media Type' do
+          post '/barcodes', barcode_request, headers
+          expect(last_response.status).to eq 415
+        end
+      end
+
+      context 'with unsupported encoding' do
+        let(:encoding) { 'code-1337' }
+
+        it 'will return 415 Unsupported Media Type' do
+          post '/barcodes', barcode_request, headers
+          expect(last_response.status).to eq 415
+        end
+      end
+
+      context 'with invalid data' do
+        let(:encoding) { 'code-128c' }
+
+        it 'will return 400 Bad Request' do
+          post '/barcodes', barcode_request, headers
+          expect(last_response.status).to eq 400
+          expect(json_response['error']).to eq Barcoded::INVALID_DATA
+        end
+      end
+
+      it 'will return a 201 Created' do
+        post '/barcodes', barcode_request, headers
+        expect(last_response.status).to eq 201
+        expect(json_response['location']).to_not be_nil
       end
     end
 
-    context 'with unsupported encoding' do
-      let(:encoding) { 'code-1337' }
-
-      it 'will return 415 Unsupported Media Type' do
-        post '/barcodes', barcode_request
-        expect(last_response.status).to eq 415
+    context 'with Content-Type application/json' do
+      it_behaves_like 'a supported content type' do
+        let(:content_type) { 'application/json' }
+        let(:barcode_request) do
+          { encoding: encoding, format: format, data: data }.to_json
+        end
       end
     end
 
-    context 'with invalid data' do
-      let(:encoding) { 'code-128c' }
-
-      it 'will return 400 Bad Request' do
-        post '/barcodes', barcode_request
-        expect(last_response.status).to eq 400
-        expect(json_response['error']).to eq Barcoded::INVALID_DATA
+    context 'with Content-Type application/x-www-form-urlencoded' do
+      it_behaves_like 'a supported content type' do
+        let(:content_type) { 'application/x-www-form-urlencoded' }
+        let(:barcode_request) do
+          { encoding: encoding, format: format, data: data }
+        end
       end
-    end
-
-    it 'will return a 201 Created' do
-      post '/barcodes', barcode_request
-      expect(last_response.status).to eq 201
-      expect(json_response['location']).to_not be_nil
     end
   end
 

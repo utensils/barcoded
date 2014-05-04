@@ -50,13 +50,6 @@ module Sinatra
       "/img/#{encoding}/#{data}.#{format}"
     end
 
-    MIME_TYPES = {
-      'png' => 'image/png',
-      'gif' => 'image/gif',
-      'jpg' => 'image/jpeg',
-      'svg' => 'image/svg+xml'
-    }
-
   end
 
   helpers ResponseHelpers

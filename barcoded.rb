@@ -1,26 +1,23 @@
 class Barcoded < Sinatra::Base
   helpers Sinatra::RequestHelpers
   helpers Sinatra::ResponseHelpers
+  helpers Sinatra::MimeTypes
 
   enable :logging
 
   INVALID_DATA = 'The data is invalid for the selected encoding.'
 
-  before '/barcodes' do
-    valid_request!
-    supported!
-  end
-
   error ArgumentError do
     bad_request(INVALID_DATA)
   end
 
-  error do
-    bad_request
+  before '/barcodes' do
+    normalize_params!
+    valid_request!
+    supported!
   end
 
   post '/barcodes' do
-    content_type 'application/json'
     barcode = create_barcode(encoding, data)
     created(barcode)
   end
