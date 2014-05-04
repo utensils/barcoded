@@ -8,7 +8,7 @@ Barcoded intends to provide a simple API for the generation of barcodes in multi
 
 1. Install the required software dependencies if you have not already:
 
-    + Ruby 2.0
+    + Ruby 2.0+
 
     + ImageMagick 6.8+
 
