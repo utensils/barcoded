@@ -83,5 +83,12 @@ describe Barcoded do
         let(:format)       { 'svg' }
       end
     end
+
+    context 'with a bad request' do
+      it 'will return 400 Bad Request' do
+        get "/img/code128c/1235ABC.png"
+        expect(last_response.status).to eq 400
+      end
+    end
   end
 end
