@@ -21,6 +21,7 @@ Dir['./spec/support/**/*.rb'].each { |f| require f }
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
+  config.include JsonRequestHelper
   config.mock_framework = :rr
 
   def app
