@@ -1,7 +1,6 @@
 class Barcoded < Sinatra::Base
   helpers Sinatra::RequestHelpers
   helpers Sinatra::ResponseHelpers
-  helpers Sinatra::MimeTypes
 
   enable :logging
 
