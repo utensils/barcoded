@@ -1,14 +1,9 @@
 class Barcoded < Sinatra::Base
   helpers Sinatra::RequestHelpers
   helpers Sinatra::ResponseHelpers
+  include Sinatra::ExceptionHandler
 
   enable :logging
-
-  INVALID_DATA = 'The data is invalid for the selected encoding.'
-
-  error ArgumentError do
-    bad_request(INVALID_DATA)
-  end
 
   before '/barcodes' do
     normalize_params!
