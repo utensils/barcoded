@@ -9,7 +9,7 @@ Barcoded intends to provide a simple API for the generation of barcodes in multi
 1. Install the required software dependencies if you have not already:
 
     + Ruby 2.0
-    
+
     + ImageMagick 6.8+
 
 2. At the command prompt, clone the project:
@@ -46,7 +46,7 @@ Barcoded intends to provide a simple API for the generation of barcodes in multi
 + PNG
 + GIF
 + JPG
-+ SVG — _coming soon..._
++ SVG
 
 ## Why?
 
