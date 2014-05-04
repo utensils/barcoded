@@ -7,8 +7,6 @@ describe Barcoded do
       let(:format)   { 'png' }
       let(:data)     { '123ABC' }
 
-
-
       let(:headers) { { 'CONTENT_TYPE' => content_type } }
 
       context 'with unsupported format' do
@@ -106,9 +104,23 @@ describe Barcoded do
 
     context 'with a bad request' do
       it 'will return 400 Bad Request' do
-        get "/img/code128c/1235ABC.png"
+        get '/img/code128c/1235ABC.png'
         expect(last_response.status).to eq 400
       end
     end
+
+    context 'with an unexpected server error' do
+      before do
+        any_instance_of(Barcoded) do |klazz|
+          stub(klazz).create_barcode(anything, anything) { raise Exception }
+        end
+      end
+
+      it 'will return 500 Server Error' do
+        get '/img/code128c/1235ABC.png'
+        expect(last_response.status).to eq 500
+      end
+    end
+
   end
 end
