@@ -35,6 +35,15 @@ module Sinatra
       img
     end
 
+    # Internal: Helper for basic health check
+    #
+    # Returns a String of 'pong'
+    def healthy_response
+      content_type 'text/plain'
+      status 200
+      'pong'
+    end
+
     private
     
     # Internal: A helper for a location Hash

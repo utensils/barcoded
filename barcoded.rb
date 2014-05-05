@@ -22,6 +22,10 @@ class Barcoded < Sinatra::Base
     send_image image, format
   end
 
+  get '/ping' do
+    healthy_response
+  end
+
   private
 
   def create_barcode(encoding, value)
