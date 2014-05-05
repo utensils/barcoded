@@ -4,7 +4,7 @@ module Sinatra
     #
     # Returns a String
     def encoding
-      params['encoding'].downcase
+      (params['encoding'] || '').downcase
     end
 
     # Internal: The value to encode
@@ -18,7 +18,7 @@ module Sinatra
     #
     # Returns a String
     def format
-      params['format'].downcase
+      (params['format'] || '').downcase
     end
 
     def normalize_params!
@@ -33,22 +33,29 @@ module Sinatra
     #
     # Returns nothing
     # Halts with a 415
-    FORMATS = %w(svg png gif jpg)
-
+    FORMATS              = %w(svg png gif jpg)
+    UNSUPPORTED_FORMAT   = 'The specified format is not supported.'
+    UNSUPPORTED_ENCODING = 'The encoding selected is not currently supported.'
     def supported!
-      unless FORMATS.include?(format) && BarcodeFactory.supported?(encoding)
-        unsupported_type
-      end
+      unsupported_type(UNSUPPORTED_FORMAT)   unless FORMATS.include?(format)
+      unsupported_type(UNSUPPORTED_ENCODING) unless BarcodeFactory.supported?(encoding)
     end
 
     # Internal: Ensures all required fields are present
     #
     # Returns nothing
     # Halts with a 400
-    REQUIRED_PARAMS = %w(format encoding data)
-
+    REQUIRED_PARAMS         = %w(format encoding data)
+    MISSING_REQUIRED_PARAMS = 'Missing required parameters.'
     def valid_request!
-      bad_request if REQUIRED_PARAMS.any? { |f| f.nil? }
+      bad_request(MISSING_REQUIRED_PARAMS) if REQUIRED_PARAMS.any? { |f| missing?(f) }
+    end
+
+    private
+
+    def missing?(name)
+      param = params[name]
+      param.nil? || param.empty?
     end
   end
 

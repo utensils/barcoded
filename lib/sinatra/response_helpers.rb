@@ -13,8 +13,9 @@ module Sinatra
     #
     # Returns nothing
     # Halts with a 415
-    def unsupported_type
-      halt 415
+    def unsupported_type(error)
+      params['error'] = error
+      halt 415, params.to_json
     end
 
     # Internal: Handle response for new events

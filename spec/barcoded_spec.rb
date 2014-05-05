@@ -15,6 +15,7 @@ describe Barcoded do
         it 'will return 415 Unsupported Media Type' do
           post '/barcodes', barcode_request, headers
           expect(last_response.status).to eq 415
+          expect(json_response['error']).to eq Barcoded::UNSUPPORTED_FORMAT
         end
       end
 
@@ -24,6 +25,7 @@ describe Barcoded do
         it 'will return 415 Unsupported Media Type' do
           post '/barcodes', barcode_request, headers
           expect(last_response.status).to eq 415
+          expect(json_response['error']).to eq Barcoded::UNSUPPORTED_ENCODING
         end
       end
 
@@ -44,7 +46,7 @@ describe Barcoded do
       end
     end
 
-    context 'with Content-Type application/json' do
+    context 'with Content Type application/json' do
       it_behaves_like 'a supported content type' do
         let(:content_type) { 'application/json' }
         let(:barcode_request) do
@@ -53,12 +55,48 @@ describe Barcoded do
       end
     end
 
-    context 'with Content-Type application/x-www-form-urlencoded' do
+    context 'with Content Type application/x-www-form-urlencoded' do
       it_behaves_like 'a supported content type' do
         let(:content_type) { 'application/x-www-form-urlencoded' }
         let(:barcode_request) do
           { encoding: encoding, format: format, data: data }
         end
+      end
+    end
+
+    shared_examples 'a required parameter' do
+      let(:encoding) { 'code-128a' }
+      let(:format)   { 'png' }
+      let(:data)     { '123ABC' }
+
+      let(:barcode_request) do
+        { encoding: encoding, format: format, data: data }
+      end
+
+      context 'when missing' do
+        it 'will return 400 Bad Request' do
+          post '/barcodes', barcode_request
+          expect(last_response.status).to eq 400
+          expect(json_response['error']).to eq Barcoded::MISSING_REQUIRED_PARAMS
+        end
+      end
+    end
+
+    describe 'encoding' do
+      it_behaves_like 'a required parameter' do
+        let(:encoding) { nil }
+      end
+    end
+
+    describe 'format' do
+      it_behaves_like 'a required parameter' do
+        let(:format) { nil }
+      end
+    end
+
+    describe 'data' do
+      it_behaves_like 'a required parameter' do
+        let(:data) { nil }
       end
     end
   end
