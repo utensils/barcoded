@@ -6,7 +6,7 @@ gem 'rqrcode'
 gem 'sinatra'
 
 group :development, :test do
-  gem 'icepick', '~> 1.1.0'
+  gem 'icepick', '~> 1.1.1'
 end
 
 group :test do

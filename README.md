@@ -2,7 +2,7 @@
 
 Barcoded intends to provide a simple API for the generation of barcodes in multiple symbologies.
 
-[![Build Status](https://travis-ci.org/doomspork/barcoded.png?branch=master)](https://travis-ci.org/doomspork/barcoded) [![Code Climate](https://codeclimate.com/github/doomspork/barcoded.png)](https://codeclimate.com/github/doomspork/barcoded) [![Coverage Status](https://coveralls.io/repos/doomspork/barcoded/badge.png?branch=master)](https://coveralls.io/r/doomspork/barcoded) [![Dependency Status](https://gemnasium.com/doomspork/barcoded.svg)](https://gemnasium.com/doomspork/barcoded) 
+[![Build Status](https://travis-ci.org/UtensilsUnion/barcoded.svg?branch=master)](https://travis-ci.org/UtensilsUnion/barcoded) [![Code Climate](https://codeclimate.com/github/UtensilsUnion/barcoded.png)](https://codeclimate.com/github/UtensilsUnion/barcoded) [![Coverage Status](https://coveralls.io/repos/UtensilsUnion/barcoded/badge.png)](https://coveralls.io/r/UtensilsUnion/barcoded) [![Dependency Status](https://gemnasium.com/UtensilsUnion/barcoded.svg)](https://gemnasium.com/UtensilsUnion/barcoded)
 
 ## Getting Started
 
