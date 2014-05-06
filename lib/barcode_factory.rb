@@ -9,6 +9,10 @@ class BarcodeFactory
     ENCODINGS.key?(key)
   end
 
+  def self.supported_encodings
+    ENCODINGS.keys
+  end
+
   private
 
   ENCODINGS = {

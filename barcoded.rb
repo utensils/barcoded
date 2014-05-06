@@ -26,6 +26,10 @@ class Barcoded < Sinatra::Base
     healthy_response
   end
 
+  get '/symbologies' do
+    symbologies
+  end
+
   private
 
   def create_barcode(encoding, value)

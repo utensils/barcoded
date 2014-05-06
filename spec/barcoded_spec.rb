@@ -168,5 +168,13 @@ describe Barcoded do
       end
     end
 
+    describe 'GET /symbologies' do
+      it 'responds with a JSON array of symbologies' do
+        get '/symbologies'
+        expect(last_response.status).to eq 200
+        expect(json_response).to eq BarcodeFactory.supported_encodings.map { |symbology| {'symbology' => symbology}}
+      end
+    end
+
   end
 end
