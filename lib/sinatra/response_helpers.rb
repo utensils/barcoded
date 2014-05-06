@@ -47,6 +47,17 @@ module Sinatra
       'pong'
     end
 
+    # Internal: Handle response to list symbologies
+    #
+    # Returns an Array of supported symbologies in JSON
+    def symbologies
+      content_type 'application/json'
+      status 200
+      encodings = BarcodeFactory.supported_encodings.map { |symbology| {:symbology => symbology}}
+      encodings.to_json
+    end
+
+
     private
 
     # Internal: A helper for halting
