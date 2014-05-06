@@ -1,9 +1,12 @@
 source 'https://rubygems.org'
 
+gem 'activesupport', '~> 4.1.0'
 gem 'barby'
+gem 'builder', '~> 3.2.2'
 gem 'rmagick', '2.13.2', require: false
 gem 'rqrcode'
-gem 'sinatra'
+gem 'sinatra', '~> 1.4.5'
+gem 'sinatra-contrib', '~> 1.4.2'
 
 group :development, :test do
   gem 'icepick', '~> 1.1.1'

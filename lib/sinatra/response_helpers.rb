@@ -6,7 +6,7 @@ module Sinatra
     # Halts with a 400
     def bad_request(error = nil)
       params['error'] = error if error
-      halt 400, params.to_json
+      do_halt 400, params
     end
 
     # Internal: Helper for unsupported media types
@@ -15,7 +15,7 @@ module Sinatra
     # Halts with a 415
     def unsupported_type(error)
       params['error'] = error
-      halt 415, params.to_json
+      do_halt 415, params
     end
 
     # Internal: Handle response for new events
@@ -24,10 +24,13 @@ module Sinatra
     #
     # Returns Event as JSON
     def created(barcode)
-      content_type 'application/json'
-      headers location 
+      headers location
       status 201
-      params.merge(location).to_json
+      data = params.merge(location)
+      respond_to do |format|
+        format.json { data.to_json }
+        format.xml { data.to_xml(:root => :barcode, :skip_types => true) }
+      end
     end
 
     def send_image(img, format)
@@ -45,7 +48,17 @@ module Sinatra
     end
 
     private
-    
+
+    # Internal: A helper for halting
+    #
+    # Returns a Response with a code and body
+    def do_halt(code, body)
+      respond_to do |format|
+        format.json { halt code, body.to_json }
+        format.xml { halt code, body.to_xml(:root => :barcode, :skip_types => true) }
+      end
+    end
+
     # Internal: A helper for a location Hash
     #
     # Returns a Hash with `location` key

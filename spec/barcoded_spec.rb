@@ -7,7 +7,7 @@ describe Barcoded do
       let(:format)   { 'png' }
       let(:data)     { '123ABC' }
 
-      let(:headers) { { 'CONTENT_TYPE' => content_type } }
+      let(:headers) { { 'CONTENT_TYPE' => content_type, 'HTTP_ACCEPT' => accept } }
 
       context 'with unsupported format' do
         let(:format) { 'jar' }
@@ -15,7 +15,7 @@ describe Barcoded do
         it 'will return 415 Unsupported Media Type' do
           post '/barcodes', barcode_request, headers
           expect(last_response.status).to eq 415
-          expect(json_response['error']).to eq Barcoded::UNSUPPORTED_FORMAT
+          expect(response['error']).to eq Barcoded::UNSUPPORTED_FORMAT
         end
       end
 
@@ -25,7 +25,7 @@ describe Barcoded do
         it 'will return 415 Unsupported Media Type' do
           post '/barcodes', barcode_request, headers
           expect(last_response.status).to eq 415
-          expect(json_response['error']).to eq Barcoded::UNSUPPORTED_ENCODING
+          expect(response['error']).to eq Barcoded::UNSUPPORTED_ENCODING
         end
       end
 
@@ -35,20 +35,21 @@ describe Barcoded do
         it 'will return 400 Bad Request' do
           post '/barcodes', barcode_request, headers
           expect(last_response.status).to eq 400
-          expect(json_response['error']).to eq Barcoded::INVALID_DATA
+          expect(response['error']).to eq Barcoded::INVALID_DATA
         end
       end
 
       it 'will return a 201 Created' do
         post '/barcodes', barcode_request, headers
         expect(last_response.status).to eq 201
-        expect(json_response['location']).to_not be_nil
+        expect(response['location']).to_not be_nil
       end
     end
 
     context 'with Content Type application/json' do
       it_behaves_like 'a supported content type' do
         let(:content_type) { 'application/json' }
+        let(:accept) { 'application/json' }
         let(:barcode_request) do
           { encoding: encoding, format: format, data: data }.to_json
         end
@@ -58,8 +59,29 @@ describe Barcoded do
     context 'with Content Type application/x-www-form-urlencoded' do
       it_behaves_like 'a supported content type' do
         let(:content_type) { 'application/x-www-form-urlencoded' }
+        let(:accept) { '*/*' }
         let(:barcode_request) do
           { encoding: encoding, format: format, data: data }
+        end
+      end
+    end
+
+    context 'with Content Type text/xml' do
+      it_behaves_like 'a supported content type' do
+        let(:content_type) { 'text/xml' }
+        let(:accept) { 'text/xml' }
+        let(:barcode_request) do
+          { encoding: encoding, format: format, data: data }.to_xml(:root => :barcode, :skip_types => true)
+        end
+      end
+    end
+
+    context 'with Content Type application/xml' do
+      it_behaves_like 'a supported content type' do
+        let(:content_type) { 'application/xml' }
+        let(:accept) { 'application/xml' }
+        let(:barcode_request) do
+          { encoding: encoding, format: format, data: data }.to_xml(:root => :barcode, :skip_types => true)
         end
       end
     end
@@ -77,7 +99,7 @@ describe Barcoded do
         it 'will return 400 Bad Request' do
           post '/barcodes', barcode_request
           expect(last_response.status).to eq 400
-          expect(json_response['error']).to eq Barcoded::MISSING_REQUIRED_PARAMS
+          expect(response['error']).to eq Barcoded::MISSING_REQUIRED_PARAMS
         end
       end
     end

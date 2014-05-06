@@ -1,6 +1,7 @@
 class Barcoded < Sinatra::Base
   helpers Sinatra::RequestHelpers
   helpers Sinatra::ResponseHelpers
+  register Sinatra::RespondWith
   include Sinatra::ExceptionHandler
 
   enable :logging
