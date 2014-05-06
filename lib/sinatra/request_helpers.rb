@@ -24,8 +24,11 @@ module Sinatra
     def normalize_params!
       case request.env['CONTENT_TYPE']
       when 'application/json'
-        json_body = JSON.parse(request.env['rack.input'].read)
+        json_body = ::JSON.parse(request.env['rack.input'].read)
         params.merge!(json_body)
+      when 'application/xml', 'text/xml'
+        xml_body = Hash.from_xml(request.env['rack.input'].read)
+        params.merge!(xml_body['barcode'])
       end
     end
 
@@ -61,4 +64,3 @@ module Sinatra
 
   helpers RequestHelpers
 end
-

@@ -1,6 +1,9 @@
+require 'active_support'
+require 'active_support/core_ext/hash/conversions'
 require 'bundler/setup'
 require 'json'
 require 'sinatra/base'
+require 'sinatra/contrib'
 
 ENV['RACK_ENV'] ||= 'development'
 
