@@ -7,6 +7,7 @@ gem 'sinatra'
 
 group :development, :test do
   gem 'icepick', '~> 1.1.1'
+  gem 'rake'
 end
 
 group :test do
