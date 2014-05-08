@@ -44,6 +44,23 @@ describe Barcoded do
         expect(last_response.status).to eq 201
         expect(response['location']).to_not be_nil
       end
+
+      it 'will support Cross Origin Resource Sharing' do
+        ENV['RACK_CORS']            = 'enabled'
+        ENV['RACK_CORS_ORIGINS']    = 'http://utensils.io/'
+        headers['HTTP_ORIGIN']      = 'http://utensils.io/'
+        headers['HTTP_USER_AGENT']  = 'Rspec'
+        post '/barcodes', barcode_request, headers
+        expect(last_response.headers['Access-Control-Allow-Origin']).to eq 'http://utensils.io/'
+      end
+
+      it 'will deny Cross Origin Resource Sharing' do
+        ENV['RACK_CORS']            = 'disabled'
+        headers['HTTP_ORIGIN']      = 'http://utensils.io/'
+        headers['HTTP_USER_AGENT']  = 'Rspec'
+        post '/barcodes', barcode_request, headers
+        expect(last_response.headers['Access-Control-Allow-Origin']).to be_nil
+      end
     end
 
     context 'with Content Type application/json' do

@@ -80,6 +80,15 @@ module Sinatra
       'svg' => 'image/svg+xml'
     }
 
+    def cors_enabled?
+      ENV['RACK_CORS'] == 'enabled'
+    end
+
+    def allow_cross_origin
+      cross_origin  allow_origin:   ENV['RACK_CORS_ORIGINS'],
+                    allow_methods:  %i(post, options, get)
+    end
+
   end
 
   helpers ResponseHelpers

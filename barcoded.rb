@@ -2,6 +2,7 @@ class Barcoded < Sinatra::Base
   helpers Sinatra::RequestHelpers
   helpers Sinatra::ResponseHelpers
   register Sinatra::RespondWith
+  register Sinatra::CrossOrigin
   include Sinatra::ExceptionHandler
 
   enable :logging
@@ -10,6 +11,7 @@ class Barcoded < Sinatra::Base
     normalize_params!
     valid_request!
     supported!
+    allow_cross_origin if cors_enabled?
   end
 
   post '/barcodes' do
