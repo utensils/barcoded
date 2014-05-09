@@ -20,16 +20,14 @@ module Sinatra
 
     # Internal: Handle response for new events
     #
-    # barcode - the Barcode that was created
-    #
-    # Returns Event as JSON
-    def created(barcode)
+    # Returns Event as JSON or XML
+    def created
       headers location
       status 201
       data = params.merge(location)
       respond_to do |format|
         format.json { data.to_json }
-        format.xml { data.to_xml(:root => :barcode, :skip_types => true) }
+        format.xml { data.to_xml(root: :barcode, skip_types: true) }
       end
     end
 
@@ -59,7 +57,7 @@ module Sinatra
     def do_halt(code, body)
       respond_to do |format|
         format.json { halt code, body.to_json }
-        format.xml { halt code, body.to_xml(:root => :barcode, :skip_types => true) }
+        format.xml { halt code, body.to_xml(root: :barcode, skip_types: true) }
       end
     end
 
@@ -67,7 +65,7 @@ module Sinatra
     #
     # Returns a Hash with `location` key
     def location
-      { 'location' => resource_link }
+      { location: resource_link }
     end
     
     # Internal: Build a resource link based on the requested data 
@@ -97,7 +95,7 @@ module Sinatra
     # Returns nothing
     def allow_cross_origin
       cross_origin  allow_origin:   ENV['RACK_CORS_ORIGINS'],
-                    allow_methods:  %i(post, options, get)
+                    allow_methods:  %i(post options get)
     end
   end
 

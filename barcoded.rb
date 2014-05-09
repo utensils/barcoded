@@ -15,8 +15,8 @@ class Barcoded < Sinatra::Base
   end
 
   post '/barcodes' do
-    barcode = create_barcode(encoding, data)
-    created(barcode)
+    create_barcode(encoding, data)
+    created
   end
 
   get '/img/*/*.*' do |encoding, data, format|

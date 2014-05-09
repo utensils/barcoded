@@ -88,7 +88,7 @@ describe Barcoded do
         let(:content_type) { 'text/xml' }
         let(:accept) { 'text/xml' }
         let(:barcode_request) do
-          { encoding: encoding, format: format, data: data }.to_xml(:root => :barcode, :skip_types => true)
+          { encoding: encoding, format: format, data: data }.to_xml(root: :barcode, skip_types: true)
         end
       end
     end
@@ -98,7 +98,7 @@ describe Barcoded do
         let(:content_type) { 'application/xml' }
         let(:accept) { 'application/xml' }
         let(:barcode_request) do
-          { encoding: encoding, format: format, data: data }.to_xml(:root => :barcode, :skip_types => true)
+          { encoding: encoding, format: format, data: data }.to_xml(root: :barcode, skip_types: true)
         end
       end
     end
