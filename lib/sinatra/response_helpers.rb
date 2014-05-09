@@ -33,6 +33,12 @@ module Sinatra
       end
     end
 
+    # Internal: Helper for rendering a String as an image
+    #
+    # img    - An image as a String
+    # format - The expected format (eg. :png)
+    #
+    # Returns a String
     def send_image(img, format)
       content_type format.to_sym
       img
@@ -46,8 +52,6 @@ module Sinatra
       status 200
       'pong'
     end
-
-    private
 
     # Internal: A helper for halting
     #
@@ -70,25 +74,31 @@ module Sinatra
     #
     # Returns a String
     def resource_link
-      "/img/#{encoding}/#{data}.#{format}"
+      "#{current_host}/img/#{encoding}/#{data}.#{format}"
     end
 
-    MIME_TYPES = {
-      'png' => 'image/png',
-      'gif' => 'image/gif',
-      'jpg' => 'image/jpeg',
-      'svg' => 'image/svg+xml'
-    }
+    # Internal: Build a String for the current host
+    #
+    # Returns a String
+    def current_host
+      port = ":#{request.port}" unless request.port == 80
+      "http://#{request.host}#{port}"
+    end
 
+    # Internal: Is CORS enabled or not
+    #
+    # Returns a Boolean
     def cors_enabled?
       ENV['RACK_CORS'] == 'enabled'
     end
 
+    # Internal: Allow cross origin request/responses
+    #
+    # Returns nothing
     def allow_cross_origin
       cross_origin  allow_origin:   ENV['RACK_CORS_ORIGINS'],
                     allow_methods:  %i(post, options, get)
     end
-
   end
 
   helpers ResponseHelpers
