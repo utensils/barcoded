@@ -28,7 +28,7 @@ module Sinatra
       status 201
       data = params.merge(location)
       respond_to do |format|
-        format.json { { barcode: data }.to_json }
+        format.json { data.to_json }
         format.xml { data.to_xml(:root => :barcode, :skip_types => true) }
       end
     end
@@ -54,7 +54,7 @@ module Sinatra
     # Returns a Response with a code and body
     def do_halt(code, body)
       respond_to do |format|
-        format.json { halt code, { barcode: body }.to_json }
+        format.json { halt code, body.to_json }
         format.xml { halt code, body.to_xml(:root => :barcode, :skip_types => true) }
       end
     end
