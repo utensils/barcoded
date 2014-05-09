@@ -8,5 +8,5 @@ Dir.glob('lib/tasks/**/*.rake').each { |r| import r }
 # Setup RSpec
 RSpec::Core::RakeTask.new(:spec)
 
-task :default => :spec
+task default: :spec
 
