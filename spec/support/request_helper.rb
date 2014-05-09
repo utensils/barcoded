@@ -5,7 +5,7 @@ module RequestHelper
       when 'application/xml', 'text/xml'
         Hash.from_xml(last_response.body)['barcode']
       else
-        JSON.parse(last_response.body)['barcode']
+        JSON.parse(last_response.body)
     end
   end
 end
