@@ -65,7 +65,7 @@ module Sinatra
     #
     # Returns a Hash with `location` key
     def location
-      { location: resource_link }
+      { 'location' => resource_link }
     end
     
     # Internal: Build a resource link based on the requested data 
