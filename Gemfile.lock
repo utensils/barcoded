@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (4.1.0)
+    activesupport (4.1.1)
       i18n (~> 0.6, >= 0.6.9)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
@@ -41,7 +41,7 @@ GEM
     method_source (0.8.2)
     mime-types (2.2)
     minitest (5.3.3)
-    multi_json (1.9.2)
+    multi_json (1.10.0)
     pry (0.9.12.6)
       coderay (~> 1.0)
       method_source (~> 0.8)
@@ -97,7 +97,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.3)
     tilt (1.4.1)
-    tins (1.1.0)
+    tins (1.2.0)
     tzinfo (1.1.0)
       thread_safe (~> 0.1)
     yard (0.8.7.4)
