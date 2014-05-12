@@ -23,26 +23,15 @@ RUN apt-get remove -y ruby
 RUN apt-get install -y nginx
 RUN gem install unicorn
 
-# Setup barcoded user to run the application
-RUN groupadd barcoded
-RUN useradd -g barcoded -G users -d /home/barcoded -m -s /bin/bash barcoded
-RUN mkdir /app
-
 # Add custom scripts and config files to manage and start application
-ADD ./docker-scripts/start-barcoded.sh /home/barcoded/
-RUN chmod +x /home/barcoded/start-barcoded.sh
-ADD ./docker-scripts/edit-unicorn-config.rb /home/barcoded/
-RUN chmod +x /home/barcoded/edit-unicorn-config.rb
-ADD ./docker-scripts/unicorn.rb /home/barcoded/
-RUN chown -R barcoded:barcoded /home/barcoded
-
-# Allow barcoded user to install gems
-RUN chown -R root:barcoded /usr/local/lib/ruby
-RUN chmod -R 775 /usr/local/lib/ruby
-RUN chown -R root:barcoded /usr/local/bin 
-RUN chmod -R 775 /usr/local/bin
+RUN mkdir /usr/local/docker-scripts
+ADD ./docker-scripts/start-barcoded.sh /usr/local/docker-scripts/
+RUN chmod +x /usr/local/docker-scripts/start-barcoded.sh
+ADD ./docker-scripts/edit-unicorn-config.rb /usr/local/docker-scripts/
+RUN chmod +x /usr/local/docker-scripts/edit-unicorn-config.rb
 
 # Add project files 
+RUN mkdir /app
 ADD ./Gemfile /app/
 ADD ./Gemfile.lock /app/
 ADD ./Rakefile /app/
@@ -51,6 +40,7 @@ ADD ./config.ru /app/
 ADD ./config /app/config
 ADD ./lib /app/lib
 ADD ./spec /app/spec
+ADD ./docker-scripts/unicorn.rb /app/config/
 
 # Setup needed directories for unicorn
 RUN mkdir /app/tmp
@@ -69,9 +59,5 @@ ENV UNICORN_WORKERS 1
 ENV UNICORN_TIMEOUT 30
 ENV UNICORN_BACKLOG 64
 
-RUN chown -R barcoded:barcoded /app
-
-USER barcoded
-
 #EXPOSE 8080
-CMD ["/home/barcoded/start-barcoded.sh"]
+CMD ["/usr/local/docker-scripts/start-barcoded.sh"]
