@@ -1,5 +1,5 @@
 module Barby
-  class QrCode
+  class QrCode < Barcode2D
     #TODO replace with legit logic here.
     def valid?
       true

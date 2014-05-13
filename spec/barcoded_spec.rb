@@ -2,6 +2,24 @@ require 'spec_helper'
 
 describe Barcoded do
   describe 'POST /barcodes' do
+    valid_data = {
+        'bookland'          => '968-26-1240-3',
+        'code128a'          => 'ABC123',
+        'code128b'          => 'ABC123',
+        'code128c'          => '123456',
+        'code25'            => '0123456789',
+        'code25interleaved' => '12345670',
+        'code39'            => 'TEST8052',
+        'code93'            => 'TEST93',
+        'ean13'             => '123456789012',
+        'ean8'              => '1234567',
+        'gs1128'            => '071230',
+        'iata'              => '0123456789',
+        'qr'                => 'Utensils',
+        'supp2'             => '1234',
+        'upca'              => '12345678999'
+    }
+
     shared_examples 'a supported content type' do
       let(:encoding) { 'code-128a' }
       let(:format)   { 'png' }
@@ -43,6 +61,18 @@ describe Barcoded do
         post '/barcodes', barcode_request, headers
         expect(last_response.status).to eq 201
         expect(response['location']).to_not be_nil
+      end
+
+      valid_data.each do |encoding, data|
+        context 'with valid data' do
+          let(:encoding) {encoding}
+          let(:data) {data}
+
+          it 'will return a valid barcode' do
+            post '/barcodes',barcode_request, headers
+            expect(response['location']).to eq "http://example.org/img/#{encoding}/#{data}.#{format}"
+          end
+        end
       end
 
       it 'will support Cross Origin Resource Sharing' do
