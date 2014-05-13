@@ -2,21 +2,21 @@
 #
 # VERSION       1.0
 
-FROM ubuntu:12.04
+FROM ubuntu:14.04
 MAINTAINER Sean Callan, James Brink
 
 # Make sure the package repository is up to date
 RUN apt-get update
 
-# Ruby is required to build Ruby 2.1.1
+# Ruby is required to build Ruby 2.1.2
 RUN apt-get install -y wget curl ruby
 RUN apt-get install -y imagemagick libmagickcore-dev libmagickwand-dev
 
 # Ruby build requirements
 RUN apt-get install -y build-essential bison openssl libreadline6 libreadline-dev zlib1g zlib1g-dev libssl-dev libyaml-dev libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev libffi-dev libffi6
 
-# Download, build, and install Ruby 2.1.1
-RUN cd /var/tmp && wget http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.1.tar.gz && tar xfvz ruby-2.1.1.tar.gz && cd ruby-2.1.1 && autoconf && ./configure --prefix=/usr/local/  && make && make install && cd .. &&  rm -rf ruby-2*
+# Download, build, and install Ruby 2.1.2
+RUN cd /var/tmp && wget http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.2.tar.gz && tar xfvz ruby-2.1.2.tar.gz && cd ruby-2.1.2 && autoconf && ./configure --prefix=/usr/local/  && make && make install && cd .. &&  rm -rf ruby-2*
 RUN apt-get remove -y ruby
 
 # Setup webstack
@@ -59,5 +59,5 @@ ENV UNICORN_WORKERS 1
 ENV UNICORN_TIMEOUT 30
 ENV UNICORN_BACKLOG 64
 
-#EXPOSE 8080
+EXPOSE 8080
 CMD ["/usr/local/docker-scripts/start-barcoded.sh"]
