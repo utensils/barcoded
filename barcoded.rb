@@ -32,7 +32,9 @@ class Barcoded < Sinatra::Base
   private
 
   def create_barcode(encoding, value)
-    BarcodeFactory.build(encoding, value)
+    barcode = BarcodeFactory.build(encoding, value)
+    raise ArgumentError unless barcode.valid?
+    barcode
   end
 
 end
