@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'activesupport', '~> 4.1.0'
+gem 'activesupport', '~> 4.1.1'
 gem 'barby'
 gem 'builder', '~> 3.2.2'
 gem 'rmagick', '2.13.2', require: false
