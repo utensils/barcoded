@@ -6,6 +6,10 @@ Barcoded intends to provide a simple API for the generation of barcodes in multi
 
 ## Getting Started
 
+Because we know how awesome you are, we've provided you options for running Barcoded:
+
+### Without Docker
+
 1. Install the required software dependencies if you have not already:
 
     + Ruby 2.0+
@@ -23,6 +27,36 @@ Barcoded intends to provide a simple API for the generation of barcodes in multi
 4. At last we are ready to get this show on the road:
 
 	`bundle exec rackup`
+	
+### With Docker
+
+1. Install required dependencies on your host:
+	
+	+ [Docker](http://docker.io) 0.9+
+
+2. Run the following command from your host's terminal:
+
+	`docker run -p 0.0.0.0:9000:8080 utensilsunion/barcoded`
+	
+3. Access the service at: `http://yourhost:9000/`
+
+4. Barcode!
+
+__Configuration__
+
+The following options are available for use with the container:
+
++ RACK_ENV _(default: production)_
+
++ RACK_CORS  _(default: disabled)_
+
++ UNICORN_WORKERS  _(default: 1)_
+
++ UNICORN_TIMEOUT  _(default: 30)_
+
+To run the application with 4 Unicorn workers:
+
+	`docker run -P -e UNICORN_WORKERS=4 utensilsunion/barcoded`
 
 ## Symbologies
 
