@@ -16,7 +16,8 @@ describe Barcoded do
         'gs1128'            => '071230',
         'iata'              => '0123456789',
         'qr'                => 'Utensils',
-        'supp2'             => '1234',
+        'supp2'             => '12',
+        'supp5'             => '12345',
         'upca'              => '12345678999'
     }
 
