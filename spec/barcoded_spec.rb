@@ -69,7 +69,7 @@ describe Barcoded do
 
           it 'will return a valid barcode' do
             post '/barcodes',barcode_request, headers
-            expect(response['location']).to eq "http://example.org/img/#{ encoding }/#{ data }.#{ format }"
+            expect(response['location']).to eq "http://example.org/img/#{encoding}/#{data}.#{format}"
           end
         end
       end

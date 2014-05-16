@@ -1,0 +1,3 @@
+class InvalidBarcodeData < Exception
+
+end

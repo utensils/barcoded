@@ -4,7 +4,7 @@ module Sinatra
 
     def handle_exception!(ex)
       case ex 
-      when ArgumentError
+      when ArgumentError, InvalidBarcodeData
         bad_request(INVALID_DATA)
       else
         super(ex)
