@@ -13,9 +13,7 @@ describe Barcoded do
         'code93'            => 'TEST93',
         'ean13'             => '123456789012',
         'ean8'              => '1234567',
-        'gs1128'            => '071230',
         'iata'              => '0123456789',
-        'qr'                => 'Utensils',
         'supp2'             => '12',
         'supp5'             => '12345',
         'upca'              => '12345678999'
@@ -66,12 +64,12 @@ describe Barcoded do
 
       valid_data.each do |encoding, data|
         context 'with valid data' do
-          let(:encoding) {encoding}
-          let(:data) {data}
+          let(:encoding) { encoding }
+          let(:data) { data }
 
           it 'will return a valid barcode' do
             post '/barcodes',barcode_request, headers
-            expect(response['location']).to eq "http://example.org/img/#{encoding}/#{data}.#{format}"
+            expect(response['location']).to eq "http://example.org/img/#{ encoding }/#{ data }.#{ format }"
           end
         end
       end
