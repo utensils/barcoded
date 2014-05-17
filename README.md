@@ -92,11 +92,11 @@ Businesses need barcodes and adding support to legacy systems for new symbologie
 
 ## Contributing
 
-Feedback and features welcome!  Please make use of [Issues](https://github.com/doomspork/barcoded/issues) and [Pull Requests](https://github.com/doomspork/barcoded/pulls), all code must have accompanying specs.
+Feedback and features welcome!  Please make use of [Issues](https://github.com/UtensilsUnion/barcoded/issues) and [Pull Requests](https://github.com/UtensilsUnion/barcoded/pulls), all code must have accompanying specs.
 
 ## Author/Contact
 
-Barcoded is written and maintained by [@doomspork](github.com/doomspork) and [@jamesbrink](github.com/jamesbrink).
+Barcoded is written and maintained by [@doomspork](https://github.com/doomspork) and [@jamesbrink](https://github.com/jamesbrink).
 
 ## License
 
