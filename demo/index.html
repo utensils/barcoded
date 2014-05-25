@@ -19,7 +19,7 @@
       <select ng-model="postData.encoding" id="symbology">
         <option ng-repeat="symbology in symbologies" value="{{symbology.value}}">{{symbology.name}}</option>
       </select>
-      <label for="format">Fromat</label>
+      <label for="format">Format</label>
       <select ng-model="postData.format" ng-options="format for format in formats" id="format"></select>
       <label for="data">Data:</label>
       <input ng-model="postData.data" required type="text" id="data"/>
