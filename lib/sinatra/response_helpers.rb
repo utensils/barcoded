@@ -72,7 +72,7 @@ module Sinatra
     #
     # Returns a String
     def resource_link
-      "#{current_host}/img/#{encoding}/#{data}.#{format}"
+      URI.escape("#{current_host}/img/#{encoding}/#{data}.#{format}")
     end
 
     # Internal: Build a String for the current host
