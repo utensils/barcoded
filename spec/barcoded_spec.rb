@@ -14,6 +14,7 @@ describe Barcoded do
         'ean13'             => '123456789012',
         'ean8'              => '1234567',
         'iata'              => '0123456789',
+        'qr'                => 'UtensilsUnion',
         'supp2'             => '12',
         'supp5'             => '12345',
         'upca'              => '12345678999'
@@ -71,6 +72,27 @@ describe Barcoded do
             post '/barcodes',barcode_request, headers
             expect(response['location']).to eq "http://example.org/img/#{encoding}/#{data}.#{format}"
           end
+
+          it 'will return an svg file' do
+            get "http://example.org/img/#{encoding}/#{data}.svg"
+            expect(last_response.status).to eq 200
+          end
+
+          it 'will return an png file' do
+            get "http://example.org/img/#{encoding}/#{data}.png"
+            expect(last_response.status).to eq 200
+          end
+
+          it 'will return an jpg file' do
+            get "http://example.org/img/#{encoding}/#{data}.jpg"
+            expect(last_response.status).to eq 200
+          end
+
+          it 'will return an gif file' do
+            get "http://example.org/img/#{encoding}/#{data}.gif"
+            expect(last_response.status).to eq 200
+          end
+
         end
       end
 

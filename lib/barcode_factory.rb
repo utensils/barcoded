@@ -23,6 +23,7 @@ class BarcodeFactory
     'ean13'             => 'Barby::EAN13',
     'ean8'              => 'Barby::EAN8',
     'iata'              => 'Barby::Code25IATA',
+    'qr'                => 'Barby::QrCode',
     'supp2'             => 'Barby::UPCSupplemental',
     'supp5'             => 'Barby::UPCSupplemental',
     'upca'              => 'Barby::UPCA'
