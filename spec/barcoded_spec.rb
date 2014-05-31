@@ -57,6 +57,16 @@ describe Barcoded do
         end
       end
 
+      context 'with data containing spaces' do
+        let(:encoding) { 'qr' }
+        let(:format) { 'svg' }
+        let(:data) { 'Utensils Union  Test' }
+        it 'will return a properly escaped URL' do
+          post '/barcodes', barcode_request, headers
+          expect(response['location']).to eq  "http://example.org/img/qr/Utensils%20Union%20%20Test.svg"
+        end
+      end
+
       it 'will return a 201 Created' do
         post '/barcodes', barcode_request, headers
         expect(last_response.status).to eq 201
