@@ -9,7 +9,7 @@ GEM
       tzinfo (~> 1.1)
     awesome_print (1.2.0)
     backports (3.6.0)
-    barby (0.6.0)
+    barby (0.6.1)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
