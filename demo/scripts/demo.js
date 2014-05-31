@@ -14,6 +14,7 @@ var DemoController = function ($scope, $http) {
       { name: 'EAN-13', value: 'ean13' },
       { name: 'EAN-8', value: 'ean8' },
       { name: 'IATA', value: 'iata' },
+      { name: 'QR Code', value: 'qr' },
       { name: 'UPC/EAN Supplemental 2', value: 'supp2' },
       { name: 'UPC/EAN Supplemental 5', value: 'supp5' },
       { name: 'UPC-A', value: 'upca' }
