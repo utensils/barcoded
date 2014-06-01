@@ -20,7 +20,7 @@ class Barcoded < Sinatra::Base
   end
 
   get '/img/*/*.*' do |encoding, data, format|
-    barcode = create_barcode(encoding, data)
+    barcode = create_barcode(encoding, URI.unescape(data))
     image   = BarcodeImageFactory.build(barcode, format)
     send_image image, format
   end

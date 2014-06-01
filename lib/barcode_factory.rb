@@ -13,9 +13,7 @@ class BarcodeFactory
 
   ENCODINGS = {
     'bookland'          => 'Barby::Bookland',
-    'code128a'          => 'Barby::Code128A',
-    'code128b'          => 'Barby::Code128B',
-    'code128c'          => 'Barby::Code128C',
+    'code128'           => 'Barby::Code128',
     'code25'            => 'Barby::Code25',
     'code25interleaved' => 'Barby::Code25Interleaved',
     'code39'            => 'Barby::Code39',

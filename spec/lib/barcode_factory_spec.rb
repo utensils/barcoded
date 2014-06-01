@@ -16,26 +16,14 @@ describe BarcodeFactory do
 
     context 'with dash in symbology' do
       it_behaves_like 'a supported symbology' do
-        let(:symbology) { 'code-128a' }
+        let(:symbology) { 'code-128' }
       end
     end
 
-    context 'code-128A' do
+    context 'code-128' do
       it_behaves_like 'a supported symbology' do
-        let(:symbology) { 'code128a' }
-      end
-    end
-
-    context 'code-128B' do
-      it_behaves_like 'a supported symbology' do
-        let(:symbology) { 'code128b' }
-      end
-    end
-
-    context 'code-128C' do
-      it_behaves_like 'a supported symbology' do
-        let(:symbology) { 'code128c' }
-        let(:data)      { '00010203' }
+        let(:symbology) { 'code128' }
+        let(:data)      { 'ABC123' }
       end
     end
 

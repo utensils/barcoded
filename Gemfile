@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'activesupport', '~> 4.1.1'
-gem 'barby'
+gem 'barby', '~> 0.6.1'
 gem 'builder', '~> 3.2.2'
 gem 'rmagick', '2.13.2', require: false
 gem 'rqrcode'

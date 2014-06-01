@@ -4,9 +4,7 @@ describe Barcoded do
   describe 'POST /barcodes' do
     valid_data = {
         'bookland'          => '968-26-1240-3',
-        'code128a'          => 'ABC123',
-        'code128b'          => 'ABC123',
-        'code128c'          => '123456',
+        'code128'           => 'ABC123\r\r123456',
         'code25'            => '0123456789',
         'code25interleaved' => '12345670',
         'code39'            => 'TEST8052',
@@ -14,14 +12,14 @@ describe Barcoded do
         'ean13'             => '123456789012',
         'ean8'              => '1234567',
         'iata'              => '0123456789',
-        'qr'                => 'UtensilsUnion',
+        'qr'                => 'The Utensils Union present Barcoded',
         'supp2'             => '12',
         'supp5'             => '12345',
         'upca'              => '12345678999'
     }
 
     shared_examples 'a supported content type' do
-      let(:encoding) { 'code-128a' }
+      let(:encoding) { 'code-128' }
       let(:format)   { 'png' }
       let(:data)     { '123ABC' }
 
@@ -48,7 +46,8 @@ describe Barcoded do
       end
 
       context 'with invalid data' do
-        let(:encoding) { 'code-128c' }
+        let(:encoding) { 'ean13' }
+        let(:data)     { 'ABC123\r\r123456' }
 
         it 'will return 400 Bad Request' do
           post '/barcodes', barcode_request, headers
@@ -65,34 +64,34 @@ describe Barcoded do
 
       valid_data.each do |encoding, data|
         context 'with valid data' do
-          let(:encoding) { encoding }
-          let(:data) { data }
+          let(:encoding)     { encoding }
+          let(:data)         { data }
+          let(:escaped_data) { URI.escape(data) }
 
           it 'will return a valid barcode' do
-            post '/barcodes',barcode_request, headers
-            expect(response['location']).to eq "http://example.org/img/#{encoding}/#{data}.#{format}"
+            post '/barcodes', barcode_request, headers
+            expect(response['location']).to eq "http://example.org/img/#{encoding}/#{escaped_data}.#{format}"
           end
 
           it 'will return an svg file' do
-            get "http://example.org/img/#{encoding}/#{data}.svg"
+            get "http://example.org/img/#{encoding}/#{escaped_data}.svg"
             expect(last_response.status).to eq 200
           end
 
           it 'will return an png file' do
-            get "http://example.org/img/#{encoding}/#{data}.png"
+            get "http://example.org/img/#{encoding}/#{escaped_data}.png"
             expect(last_response.status).to eq 200
           end
 
           it 'will return an jpg file' do
-            get "http://example.org/img/#{encoding}/#{data}.jpg"
+            get "http://example.org/img/#{encoding}/#{escaped_data}.jpg"
             expect(last_response.status).to eq 200
           end
 
           it 'will return an gif file' do
-            get "http://example.org/img/#{encoding}/#{data}.gif"
+            get "http://example.org/img/#{encoding}/#{escaped_data}.gif"
             expect(last_response.status).to eq 200
           end
-
         end
       end
 
@@ -155,7 +154,7 @@ describe Barcoded do
     end
 
     shared_examples 'a required parameter' do
-      let(:encoding) { 'code-128a' }
+      let(:encoding) { 'code-128' }
       let(:format)   { 'png' }
       let(:data)     { '123ABC' }
 
@@ -197,7 +196,7 @@ describe Barcoded do
       let(:format)       { '' }
 
       it 'will return an image' do
-        get "/img/code128a/1235ABC.#{format}"
+        get "/img/code128/1235ABC.#{format}"
         expect(last_response.status).to eq 200
       end
     end
@@ -232,7 +231,7 @@ describe Barcoded do
 
     context 'with a bad request' do
       it 'will return 400 Bad Request' do
-        get '/img/code128c/1235ABC.png'
+        get '/img/ean13/ABC123%0D%0A123456.png'
         expect(last_response.status).to eq 400
       end
     end
@@ -245,7 +244,7 @@ describe Barcoded do
       end
 
       it 'will return 500 Server Error' do
-        get '/img/code128c/1235ABC.png'
+        get '/img/code128/1235ABC.png'
         expect(last_response.status).to eq 500
       end
     end
