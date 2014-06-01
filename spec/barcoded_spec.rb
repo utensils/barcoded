@@ -12,7 +12,7 @@ describe Barcoded do
         'ean13'             => '123456789012',
         'ean8'              => '1234567',
         'iata'              => '0123456789',
-        'qr'                => 'The Utensils Union present Barcoded',
+        'qr'                => 'The Utensils Union presents Barcoded',
         'supp2'             => '12',
         'supp5'             => '12345',
         'upca'              => '12345678999'
