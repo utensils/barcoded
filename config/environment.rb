@@ -13,5 +13,5 @@ ENV['RACK_CORS_ORIGINS']  ||= '*'
 
 Bundler.require(:default, ENV['RACK_ENV'])
 
-path = File.join(Dir.pwd, '{config,lib}', '**', '*.rb')
+path = File.join(Dir.pwd, '{config/initializers,lib}', '**', '*.rb')
 Dir[path].each { |file| require file }
