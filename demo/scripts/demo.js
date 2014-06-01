@@ -4,9 +4,7 @@ var DemoController = function ($scope, $http) {
     $scope.endpoint = 'http://utility.utensils.io:9000/barcodes'
     $scope.symbologies = [
       { name: 'Bookland', value: 'bookland' },
-      { name: 'Code 128', value: 'code128a' },
-      { name: 'Code 128b', value: 'code128b' },
-      { name: 'Code 128c', value: 'code128c' },
+      { name: 'Code 128', value: 'code128' },
       { name: 'Code 25 Interleaved 2 of 5', value: 'code25interleaved' },
       { name: 'Code 25 Non-interleaved 2 of 5', value: 'code25' },
       { name: 'Code 39', value: 'code39' },
@@ -14,6 +12,7 @@ var DemoController = function ($scope, $http) {
       { name: 'EAN-13', value: 'ean13' },
       { name: 'EAN-8', value: 'ean8' },
       { name: 'IATA', value: 'iata' },
+      { name: 'QR Code', value: 'qr' },
       { name: 'UPC/EAN Supplemental 2', value: 'supp2' },
       { name: 'UPC/EAN Supplemental 5', value: 'supp5' },
       { name: 'UPC-A', value: 'upca' }
