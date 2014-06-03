@@ -25,7 +25,7 @@ RSpec.configure do |config|
   config.mock_framework = :rr
 
   def app
-    Barcoded 
+    Barcoded::Service
   end
 end
 
