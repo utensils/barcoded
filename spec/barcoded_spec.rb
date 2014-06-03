@@ -2,22 +2,6 @@ require 'spec_helper'
 
 describe Barcoded do
   describe 'POST /barcodes' do
-    valid_data = {
-        'bookland'          => '968-26-1240-3',
-        'code128'           => 'ABC123\r\r123456',
-        'code25'            => '0123456789',
-        'code25interleaved' => '12345670',
-        'code39'            => 'TEST8052',
-        'code93'            => 'TEST93',
-        'ean13'             => '123456789012',
-        'ean8'              => '1234567',
-        'iata'              => '0123456789',
-        'qr'                => 'The Utensils Union presents Barcoded',
-        'supp2'             => '12',
-        'supp5'             => '12345',
-        'upca'              => '12345678999'
-    }
-
     shared_examples 'a supported content type' do
       let(:encoding) { 'code-128' }
       let(:format)   { 'png' }
@@ -60,39 +44,6 @@ describe Barcoded do
         post '/barcodes', barcode_request, headers
         expect(last_response.status).to eq 201
         expect(response['location']).to_not be_nil
-      end
-
-      valid_data.each do |encoding, data|
-        context 'with valid data' do
-          let(:encoding)     { encoding }
-          let(:data)         { data }
-          let(:escaped_data) { URI.escape(data) }
-
-          it 'will return a valid barcode' do
-            post '/barcodes', barcode_request, headers
-            expect(response['location']).to eq "http://example.org/img/#{encoding}/#{escaped_data}.#{format}"
-          end
-
-          it 'will return an svg file' do
-            get "http://example.org/img/#{encoding}/#{escaped_data}.svg"
-            expect(last_response.status).to eq 200
-          end
-
-          it 'will return an png file' do
-            get "http://example.org/img/#{encoding}/#{escaped_data}.png"
-            expect(last_response.status).to eq 200
-          end
-
-          it 'will return an jpg file' do
-            get "http://example.org/img/#{encoding}/#{escaped_data}.jpg"
-            expect(last_response.status).to eq 200
-          end
-
-          it 'will return an gif file' do
-            get "http://example.org/img/#{encoding}/#{escaped_data}.gif"
-            expect(last_response.status).to eq 200
-          end
-        end
       end
 
       it 'will support Cross Origin Resource Sharing' do
@@ -188,6 +139,24 @@ describe Barcoded do
         let(:data) { nil }
       end
     end
+
+    context 'with image options' do
+      let(:barcode_request) do
+        {
+          :encoding => 'qr',
+          :format   => 'png',
+          :data     => 'The Utensils Union',
+          :options  => {
+            :xdim => 10
+          }
+        }
+      end
+
+      it 'will return a resource link with appropriate options' do
+        post '/barcodes', barcode_request
+        expect(response['location']).to include 'xdim=10'
+      end
+    end
   end
 
   describe 'GET /img/:encoding/:data.:format' do
@@ -197,6 +166,16 @@ describe Barcoded do
 
       it 'will return an image' do
         get "/img/code128/1235ABC.#{format}"
+        expect(last_response.status).to eq 200
+      end
+
+      it 'will support a height option' do
+        get "/img/code128/1235ABC.#{format}?height=200"
+        expect(last_response.status).to eq 200
+      end
+
+      it 'will support a xdim option' do
+        get "/img/code128/1235ABC.#{format}?xdim=10"
         expect(last_response.status).to eq 200
       end
     end
