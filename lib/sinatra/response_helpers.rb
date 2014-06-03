@@ -67,12 +67,13 @@ module Sinatra
     def location
       { 'location' => resource_link }
     end
-    
-    # Internal: Build a resource link based on the requested data 
+
+    # Internal: Build a resource link based on the requested data
     #
     # Returns a String
     def resource_link
-      URI.escape("#{current_host}/img/#{encoding}/#{data}.#{format}")
+      query = URI.encode_www_form(options)
+      URI.escape("#{current_host}/img/#{encoding}/#{data}.#{format}?#{query}")
     end
 
     # Internal: Build a String for the current host

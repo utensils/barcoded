@@ -1,9 +1,9 @@
 class BarcodeImageFactory
 
-  def self.build(barcode, format)
+  def self.build(barcode, format, options = {})
     out       = format_outputter(format)
     outputter = out.new(barcode)
-    outputter.send("to_#{format}")
+    outputter.send("to_#{format}", options)
   end
 
   private
