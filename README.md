@@ -18,7 +18,7 @@ Because we know how awesome you are, we've provided you options for running Barc
 
 2. At the command prompt, clone the project:
 
-	`git clone git@github.com/doomspork/barcoded`
+	`git clone git@github.com/UtensilsUnion/barcoded`
 
 3. Change directory to `barcoded` and install our gems:
 
