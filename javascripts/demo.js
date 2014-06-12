@@ -17,10 +17,9 @@ var DemoController = function ($scope, $http) {
       { name: 'UPC/EAN Supplemental 5', value: 'supp5' },
       { name: 'UPC-A', value: 'upca' }
     ];
-    $scope.formats = ['svg', 'png', 'gif', 'jpg'];
     $scope.errorMessage = '';
     $scope.postData = {
-      format: $scope.formats[0],
+      format: 'svg',
       data: '',
       encoding: $scope.symbologies[0].value
     };
