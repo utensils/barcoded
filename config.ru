@@ -7,4 +7,4 @@ require File.expand_path('barcoded')
 
 set :run, false
 
-run Barcoded
+run Barcoded::Service

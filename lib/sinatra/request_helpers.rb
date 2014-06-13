@@ -21,6 +21,12 @@ module Sinatra
       (params['format'] || '').downcase
     end
 
+    SUPPORTED_OPTIONS = %w(height width)
+    def options
+      options = (params['options'] || params).slice(*SUPPORTED_OPTIONS).symbolize_keys
+      options.update(options) { |_, v, _| v.to_i }
+    end
+
     def normalize_params!
       case request.env['CONTENT_TYPE']
       when 'application/json'
