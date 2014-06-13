@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app>
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -7,13 +7,16 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/base-min.css">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/forms-nr-min.css">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/buttons-min.css">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <title>Barcoded by UtensilsUnion</title>
   </head>
 
-  <body>
+  <body ng-controller="DemoController">
     <div id="container">
       <div class="inner">
 
@@ -34,24 +37,66 @@
           <h3><a name="welcome-to-barcoded" class="anchor" href="#welcome-to-barcoded"><span class="octicon octicon-link"></span></a>Welcome to Barcoded!</h3>
 
           <p>
-            Barcoded is a simple web service for the generation of barcodes in numerous symbologies and formats; we've dockerized it to make deployments a breeze:
+          Barcoded is a simple web service for the generation of barcodes in numerous symbologies and formats; we've dockerized it to make deployments a breeze:
           </p>
 
-          <pre><code>$ docker run -P utensilsunion/barcoded</code></pre>
+            <pre><code>$ docker run -P utensilsunion/barcoded</code></pre>
 
           <p>
-            That's it!  You're online and ready to get barcoded.
+          That's it!  You're online and ready to get barcoded.
           </p>
 
           <h3><a name="demo-barcodes" class="anchor" href="#demo-barcodes"><span class="octicon octicon-link"></span></a>Demo</h3>
-          <p>
-            Check out the <a href="http://utensils.io/barcoded/demo/">demo</a> to see Barcoded in action.
-          </p>
+
+          <form ng-submit="submit()" method="post" name="barcodeForm" class="pure-form pure-form-aligned form">
+            <div class="pure-control-group">
+              <label for="symbology">Symbology: </label>
+              <select ng-model="postData.encoding" id="symbology">
+                <option ng-repeat="symbology in symbologies" value="{{symbology.value}}">{{symbology.name}}</option>
+              </select>
+            </div>
+
+            <div class="pure-control-group">
+              <label for="data">Data: </label>
+              <input ng-model="postData.data" required type="text" id="data"/>
+              <button ng-disabled="barcodeForm.$invalid" type="submit" class="pure-button pure-button-primary">Generate</button>
+              <small><strong>Using API Endpoint:</strong> {{endpoint}}</small>
+            </div>
+          </form>
+
+          <div ng-if="errorMessage">
+            <div class="alert alert-danger">
+              {{errorMessage}}
+            </div>
+          </div>
+
+          <div class="panel panel-primary">
+            <div ng-if="postData">
+              <strong>PostData:</strong>
+              <p>
+              <pre><code>{{postData}}</code></pre>
+              </p>
+            </div>
+
+            <div ng-if="responseData">
+              <strong>ResponseData:</strong>
+              <p>
+              <pre><code>{{responseData}}</code></pre>
+              </p>
+            </div>
+
+            <div ng-if="barcodeURL">
+              <strong>Result:</strong>
+              <p>
+              <img class="barcode-img" ng-src="{{barcodeURL}}"/>
+              </p>
+            </div>
+          </div>
 
           <h3><a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
           <p>
-            The Barcoded project is actively developed and maintained by <a href="https://github.com/doomspork" class="user-mention">@doomspork</a> and <a href="https://github.com/jamesbrink" class="user-mention">@jamesbrink</a>.We welcome community feedback and contributions so please feel free to make sure of <a href="https://github.com/UtensilsUnion/barcoded/issues">Issues</a> and <a href="https://github.com/UtensilsUnion/barcoded/pulls">Pull Requests</a>, we do ask that all contributions include test coverage.
+          The Barcoded project is actively developed and maintained by <a href="https://github.com/doomspork" class="user-mention">@doomspork</a> and <a href="https://github.com/jamesbrink" class="user-mention">@jamesbrink</a>. We welcome community feedback and contributions so please feel free to send us <a href="https://github.com/UtensilsUnion/barcoded/issues">issues</a> and <a href="https://github.com/UtensilsUnion/barcoded/pulls">pull requests</a>. We do ask that all contributions include test coverage.
           </p>
         </section>
 
@@ -60,17 +105,19 @@
           This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
         </footer>
 
-                  <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        <script type="text/javascript">
+          var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+          document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
           <script type="text/javascript">
             try {
               var pageTracker = _gat._getTracker("UA-50779443-1");
-            pageTracker._trackPageview();
+              pageTracker._trackPageview();
             } catch(err) {}
-          </script>
+</script>
 
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+<script src="javascripts/demo.js"></script>
       </div>
     </div>
   </body>
