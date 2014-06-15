@@ -86,7 +86,7 @@ To run the application with 4 Unicorn workers:
 Businesses need barcodes and adding support to legacy systems for new symbologies can be non-trival, enter Barcoded.  Leveraging our simple API, businesses can generate barcodes in multiple symbologies on-demand without ever making a code change.
 
 ## Demo
-To see Barcoded in action check out the [demo](http://utensils.io/barcoded/demo/).
+To see Barcoded in action check out the [project page](http://utensils.io/barcoded).
 
 ## Testing
 
