@@ -1,16 +1,16 @@
 source 'https://rubygems.org'
 
-gem 'activesupport', '~> 4.1.1'
-gem 'barby', '~> 0.6.1'
-gem 'builder', '~> 3.2.2'
-gem 'rmagick', '2.13.2', require: false
+gem 'activesupport'
+gem 'barby'
+gem 'builder'
+gem 'rmagick', require: false
 gem 'rqrcode'
-gem 'sinatra', '~> 1.4.5'
-gem "sinatra-cross_origin", "~> 0.3.1"
-gem 'sinatra-contrib', '~> 1.4.2'
+gem 'sinatra'
+gem 'sinatra-cross_origin'
+gem 'sinatra-contrib'
 
 group :development, :test do
-  gem 'icepick', '~> 1.1.1'
+  gem 'icepick'
   gem 'rake'
 end
 
@@ -19,5 +19,5 @@ group :test do
   gem 'rack-test'
   gem 'rr'
   gem 'rspec'
-  gem 'simplecov', '~> 0.7', require: false
+  gem 'simplecov', require: false
 end
