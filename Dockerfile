@@ -1,13 +1,13 @@
 # Barcoded
 #
-# VERSION       1.0
+# VERSION       1.1.0
 
-FROM ubuntu:14.04
+FROM ubuntu:14.04.1
 MAINTAINER Sean Callan, James Brink
 
 # Make sure the package repository is up to date
 RUN apt-get update
-
+RUN apt-get dist-upgrade -y
 # Ruby is required to build Ruby 2.1.2
 RUN apt-get install -y wget curl ruby
 RUN apt-get install -y imagemagick libmagickcore-dev libmagickwand-dev

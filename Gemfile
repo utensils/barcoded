@@ -21,3 +21,7 @@ group :test do
   gem 'rspec'
   gem 'simplecov', require: false
 end
+
+group :production do
+  gem 'unicorn', '~> 4.8.3'
+end
