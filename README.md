@@ -100,7 +100,7 @@ Feedback and features welcome!  Please make use of [Issues](https://github.com/U
 
 ## Author/Contact
 
-Barcoded is written and maintained by [@doomspork](https://github.com/doomspork) and [@jamesbrink](https://github.com/jamesbrink).
+Barcoded is written and maintained by [@doomspork](https://github.com/doomspork).
 
 ## License
 
