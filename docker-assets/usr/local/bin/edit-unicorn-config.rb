@@ -2,13 +2,13 @@
 # This script is used to read a unicorn configuration file into memory
 # Update values based on ENV variables and write it back to disk.
 
-CONFIG_FILE = '/app/config/unicorn.rb'
+CONFIG_FILE = '/usr/local/etc/barcoded/unicorn.rb'
 
 ENV_CONFIG_OPTIONS = {
         'UNICORN_WORKERS' => 'worker_processes',
         'UNICORN_TIMEOUT' => 'timeout',
         'UNICORN_BACKLOG' => 'backlog'
-    } 
+    }
 
 def print_header(string)
     puts '=' * 80

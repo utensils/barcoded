@@ -1,6 +1,7 @@
 require 'simplecov'
 require 'rack/test'
 require 'coveralls'
+require 'mocha/api'
 
 ENV['RACK_ENV'] = 'test'
 
@@ -22,10 +23,9 @@ Dir['./spec/support/**/*.rb'].each { |f| require f }
 RSpec.configure do |config|
   config.include Rack::Test::Methods
   config.include RequestHelper
-  config.mock_framework = :rr
+  config.mock_framework = :mocha
 
   def app
     Barcoded::Service
   end
 end
-

@@ -12,12 +12,12 @@ gem 'sinatra-contrib'
 group :development, :test do
   gem 'icepick'
   gem 'rake'
+  gem 'mocha', require: false
 end
 
 group :test do
   gem 'coveralls', require: false
   gem 'rack-test'
-  gem 'rr'
   gem 'rspec'
   gem 'simplecov', require: false
 end

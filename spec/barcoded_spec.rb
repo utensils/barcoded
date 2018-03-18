@@ -219,9 +219,7 @@ module Barcoded
 
       context 'with an unexpected server error' do
         before do
-          any_instance_of(Service) do |klazz|
-            stub(klazz).create_barcode(anything, anything) { raise Exception }
-          end
+          Service.any_instance.stubs(:create_barcode).raises(Exception)
         end
 
         it 'will return 500 Server Error' do

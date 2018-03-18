@@ -27,17 +27,19 @@ Because we know how awesome you are, we've provided you options for running Barc
 4. At last we are ready to get this show on the road:
 
 	`bundle exec rackup`
-	
+
 ### With Docker
 
 1. Install required dependencies on your host:
-	
+
 	+ [Docker](http://docker.io) 0.9+
 
 2. Run the following command from your host's terminal:
 
-	`docker run -p 0.0.0.0:9000:8080 utensilsunion/barcoded`
-	
+```shell
+docker run -p 0.0.0.0:8080:8080 utensilsunion/barcoded
+```
+
 3. Access the service at: `http://yourhost:9000/`
 
 4. Barcode!
@@ -56,7 +58,10 @@ The following options are available for use with the container:
 
 To run the application with 4 Unicorn workers:
 
-	`docker run -P -e UNICORN_WORKERS=4 utensilsunion/barcoded`
+```shell
+docker run -P -e UNICORN_WORKERS=4 utensilsunion/barcoded
+```
+
 
 ## Symbologies
 
@@ -80,6 +85,19 @@ To run the application with 4 Unicorn workers:
 + GIF
 + JPG
 + SVG
+
+## Examples
+
+Download a code128 barcode as a jpeg with the value of **12345ABC**
+```shell
+curl -O  http://localhost:8080/img/code128/1235ABC.jpg
+```
+
+Download a QR Code as a png with the value of **BarcodedRocks**, specifying a hight and width of **800x800**.
+```shell
+curl -o BarcodedRocks.png \
+  "http://localhost:8080/img/qr/BarcodedRocks.png?height=800&width=800"
+```
 
 ## Why?
 
