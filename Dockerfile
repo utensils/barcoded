@@ -1,63 +1,44 @@
 # Barcoded
 #
-# VERSION       1.1.0
+# VERSION       1.2.0
 
-FROM ubuntu:14.04.1
+FROM ruby:2-alpine
 MAINTAINER Sean Callan, James Brink
 
-# Make sure the package repository is up to date
-RUN apt-get update
-RUN apt-get dist-upgrade -y
-# Ruby is required to build Ruby 2.1.2
-RUN apt-get install -y wget curl ruby
-RUN apt-get install -y imagemagick libmagickcore-dev libmagickwand-dev
+# Create barcoded group and user.
+RUN addgroup -S barcoded && adduser -S -h /app -s /bin/sh -G barcoded barcoded
 
-# Ruby build requirements
-RUN apt-get install -y build-essential bison openssl libreadline6 libreadline-dev zlib1g zlib1g-dev libssl-dev libyaml-dev libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev libffi-dev libffi6
+# Copy docker assets and application files.
+COPY ./ /app
 
-# Download, build, and install Ruby 2.1.2
-RUN cd /var/tmp && wget http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.2.tar.gz && tar xfvz ruby-2.1.2.tar.gz && cd ruby-2.1.2 && autoconf && ./configure --prefix=/usr/local/  && make && make install && cd .. &&  rm -rf ruby-2*
-RUN apt-get remove -y ruby
+# Set setup docker-assets and set permissions.
+RUN cp -rv /app/docker-assets/* / \
+    && rm -rf /app/docker-assets \
+    && chown -R barcoded:barcoded /app \
+    && chown -R barcoded:barcoded /usr/local/etc/barcoded
 
-# Setup webstack
-RUN apt-get install -y nginx
-RUN gem install unicorn
+# Install application and build dependencies
+RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.5/main' >> /etc/apk/repositories \
+    && apk --no-cache --update add --virtual build-deps build-base linux-headers imagemagick-dev=6.9.6.8-r1 \
+    && apk --no-cache --update add --virtual app-deps imagemagick=6.9.6.8-r1 \
+    && su barcoded -c "cd /app && /usr/bin/env && sh -c bundle install --with=production --no-cache" \
+    && apk del build-deps
 
-# Add custom scripts and config files to manage and start application
-RUN mkdir /usr/local/docker-scripts
-ADD ./docker-scripts/start-barcoded.sh /usr/local/docker-scripts/
-RUN chmod +x /usr/local/docker-scripts/start-barcoded.sh
-ADD ./docker-scripts/edit-unicorn-config.rb /usr/local/docker-scripts/
-RUN chmod +x /usr/local/docker-scripts/edit-unicorn-config.rb
+# Set container to user barcoded user.
+USER barcoded
 
-# Add project files 
-RUN mkdir /app
-ADD ./Gemfile /app/
-ADD ./Gemfile.lock /app/
-ADD ./Rakefile /app/
-ADD ./barcoded.rb /app/
-ADD ./config.ru /app/
-ADD ./config /app/config
-ADD ./lib /app/lib
-ADD ./spec /app/spec
-ADD ./docker-scripts/unicorn.rb /app/config/
+# Set working directory to barcoded app.
+WORKDIR /app
 
-# Setup needed directories for unicorn
-RUN mkdir /app/tmp
-RUN mkdir /app/tmp/sockets
-RUN mkdir /app/tmp/pids
-RUN mkdir /app/log
+# Set environment variable defaults.
+ENV RACK_ENV=production \
+    RACK_CORS=disabled \
+    UNICORN_WORKERS=1 \
+    UNICORN_TIMEOUT=30 \
+    UNICORN_BACKLOG=64
 
-# Install needed gems
-RUN gem install bundler
-RUN cd /app/ && bundle install
-
-# Set ENV Variables
-ENV RACK_ENV production
-ENV RACK_CORS disabled
-ENV UNICORN_WORKERS 1
-ENV UNICORN_TIMEOUT 30
-ENV UNICORN_BACKLOG 64
-
+# Expose unicorn port.
 EXPOSE 8080
-CMD ["/usr/local/docker-scripts/start-barcoded.sh"]
+
+# Execute entrypoint configuring and executing unicorn.
+CMD ["/usr/local/bin/entrypoint.sh"]

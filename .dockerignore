@@ -1,0 +1,8 @@
+.git
+.gitignore
+.travis.yml
+.ruby-version
+.dockerignore
+.bundle
+docs
+# docker-assets
