@@ -16,7 +16,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'coveralls', require: false
+  gem 'coveralls', '~> 0.8.21', require: false
   gem 'rack-test'
   gem 'rspec'
   gem 'simplecov', require: false
